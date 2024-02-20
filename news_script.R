@@ -150,7 +150,7 @@ dfmat_weight_news <- news_corp |>
   dfm() |>
   dfm_weight(scheme = "prop")
 
-# Calculate relative frequency by president
+# Calculate relative frequency by news genre
 dat_freq_weight <- textstat_frequency(dfmat_weight_news, n = 15, 
                                       groups = type)
 
