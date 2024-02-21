@@ -133,16 +133,6 @@ ggplot(freq_trump, aes(x = frequency, y = group)) +
   labs(x = "Frequency", y = NULL,
        title = 'Frequency of "trump"')
 
-#Russia
-freq_russia <- subset(freq_grouped, freq_grouped$feature %in% "russia") 
-freq_russia
-
-ggplot(freq_russia, aes(x = frequency, y = group)) +
-  geom_point() + 
-  labs(x = "Frequency", y = NULL,
-       title = 'Frequency of "russia"')
-
-
 
 #Now the top words by type
 dfmat_weight_news <- news_corp |>
@@ -163,7 +153,7 @@ ggplot(data = dat_freq_weight, aes(x = nrow(dat_freq_weight):1, y = frequency)) 
   labs(x = NULL, y = "Relative frequency")
 
 
-#Key words in context
+#Keyness
 key_subset <- corpus_subset(news_corp, 
                           type %in% c("fake", "real"))
 
@@ -172,11 +162,18 @@ dfmat_key <- tokens(key_subset) |>
   tokens_group(groups = type) |>
   dfm()
 
-# Calculate keyness and determine Trump as target group
+# Calculate keyness and determine real news as target group
 tstat_keyness <- textstat_keyness(dfmat_key, target = "real")
 
 # Plot estimated word keyness
 textplot_keyness(tstat_keyness)
+
+#keywords in context
+# single token matching
+toks <- tokens(news_corp)
+
+#set the window and choose a keyword
+kwic(toks, pattern = "trump*", valuetype = "glob", window = 3)#see 3 words on either side of term
 
 
 
